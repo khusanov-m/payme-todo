@@ -1,0 +1,20 @@
+<div [ngSwitch]="type">
+  <div *ngSwitchCase="'select'">output</div>
+  <div *ngSwitchCase="'textarea'">output</div>
+  <div *ngSwitchCase="'checkbox'">output</div>
+  <div *ngSwitchDefault>
+    <label *ngIf="label" [for]="for">{{ label }}</label>
+    <div>
+      <input
+        type="text"
+        class=""
+        [attr.autocomplete]="autocomplete"
+        [id]="for"
+        [ngClass]="class"
+        [value]="value"
+        [mask]="mask"
+        (input)="valueChange.emit($event)" />
+    </div>
+    <span class="text-sm italic" *ngIf="error">{{ error }}</span>
+  </div>
+</div>

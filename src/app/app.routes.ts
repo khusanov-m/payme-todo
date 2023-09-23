@@ -1,3 +1,30 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'app/todos',
+    pathMatch: 'full',
+  },
+  {
+    path: 'auth',
+    loadComponent: () =>
+      import('./features/auth/auth.component').then(m => m.AuthComponent),
+    title: 'Login',
+  },
+  {
+    path: 'app/todos',
+    loadChildren: () =>
+      import('./features/todos/todos.routes').then(m => m.TODOS_ROUTES),
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./tech-pages/not-found/not-found.component').then(
+        m => m.NotFoundComponent
+      ),
+    title: '404 Not Found',
+  },
+];

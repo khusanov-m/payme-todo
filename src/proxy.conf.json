@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://joldibaev.uz/api",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {}
+  }
+}
