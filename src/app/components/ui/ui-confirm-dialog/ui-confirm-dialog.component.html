@@ -1,0 +1,11 @@
+<div class="px-4 py-3 space-y-4">
+  <h4>Are you sure you want to delete this todo?</h4>
+  <div class="flex items-center justify-end gap-3">
+    <button matRipple (click)="dialogRef.close(true)" class="btn btn--delete">
+      Delete
+    </button>
+    <button matRipple (click)="dialogRef.close()" class="btn btn--tertiary">
+      Cancel
+    </button>
+  </div>
+</div>

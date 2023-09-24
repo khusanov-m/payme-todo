@@ -10,9 +10,12 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideToastr } from 'ngx-toastr';
+
 import { routes } from './app.routes';
+import { TodosEffects } from './features/todo/store/todos.effects';
+import { reducers } from './features/todo/store/todos.store';
 import { authInterceptor } from './services/auth-interceptor.service';
-import { RouteTitleConfig } from './utils/page-title.service';
+import { RouteTitleConfig } from './services/page-title.service';
 
 const maskConfig: Partial<IConfig> = {};
 
@@ -30,7 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideToastr(ToastrConfigConst),
     RouteTitleConfig,
-    provideStore(),
-    provideEffects(),
+    provideStore(reducers),
+    provideEffects([TodosEffects]),
   ],
 };

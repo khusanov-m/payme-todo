@@ -1,0 +1,57 @@
+<div
+  *ngIf="todo"
+  class="px-5 py-4 rounded-md bg-neutral-100 shadow-md border-secondary border space-y-4">
+  <div class="flex items-center justify-between">
+    <span class="text-xs text-dark">
+      {{
+        todo.completed
+          ? 'Updated: ' + (todo.updated_at | date: 'dd.MM.yyyy')
+          : 'Created: ' + (todo.created_at | date: 'dd.MM.yyyy')
+      }}
+    </span>
+
+    <div class="flex items-center gap-2">
+      <button *ngIf="showMenu">
+        <ng-icon
+          name="heroEllipsisHorizontalCircle"
+          size="24"
+          [matMenuTriggerFor]="menu"
+          aria-label="Todo actions with menu" />
+      </button>
+
+      <ng-icon
+        name="heroCheckBadge"
+        size="24"
+        [color]="todo.completed ? '#10b981' : '#78716c'"
+        aria-label="Todo status" />
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <p [ngClass]="{ 'line-through': todo.completed }">
+      {{ todo.title }}
+    </p>
+    <button
+      *ngIf="showDetails"
+      matRipple
+      class="bg-primary text-white border border-transparent rounded px-2 py-1 text-sm hover:border-primary hover:bg-cyan-100 hover:text-primary focus:bg-cyan-100 focus:text-primary divide-gray-200 block ml-auto"
+      [routerLink]="['/app/todos/todo/', todo.id]">
+      Details
+    </button>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <ng-container *ngIf="menuItems">
+      <button
+        *ngFor="let item of menuItems"
+        (click)="item?.action()"
+        [ngClass]="
+          item.title === 'delete' ? 'hover:bg-rose-300' : 'hover:bg-cyan-100'
+        "
+        class="w-full flex items-center gap-2 px-2 py-3 hover:text-dark duration-200">
+        <ng-icon [name]="item.icon" size="18" />
+        <span class="capitalize">{{ item.title }}</span>
+      </button>
+    </ng-container>
+  </mat-menu>
+</div>

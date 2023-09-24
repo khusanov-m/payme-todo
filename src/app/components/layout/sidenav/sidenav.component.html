@@ -1,0 +1,27 @@
+<aside
+  class="flex flex-col items-center justify-between h-full p-3 border-r border-secondary">
+  <nav class="space-y-10">
+    <h1 routerLink="/app/todos" class="cursor-pointer">PayDo</h1>
+
+    <ul class="space-y-3 flex flex-col items-center">
+      <li
+        *ngFor="let item of navigation"
+        [routerLink]="item.path"
+        matTooltipPosition="after"
+        [matTooltip]="item.name"
+        class="cursor-pointer inline-block">
+        <div
+          routerLinkActive="text-neutral-100 bg-dark hover:bg-dark hover:text-neutral-100"
+          class="hover:bg-primary/75 hover:text-secondary rounded-md p-1 leading-none transition-colors duration-200">
+          <ng-icon [name]="item.icon" size="24" />
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <ng-icon
+    name="heroQuestionMarkCircle"
+    size="24"
+    class="cursor-pointer"
+    matTooltipPosition="after"
+    matTooltip="FAQ" />
+</aside>

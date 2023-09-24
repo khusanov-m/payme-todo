@@ -5,17 +5,17 @@ import { tap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const _cookie = inject(CookieService);
-  console.log('request', req.method, req.url);
-  console.log('authInterceptor');
 
-  const headers = req.headers.set(
-    'Authorization',
-    `Token ${_cookie.get('token')}`
-  );
+  if (_cookie.check('token')) {
+    const headers = req.headers.set(
+      'Authorization',
+      `Token ${_cookie.get('token')}`
+    );
 
-  req = req.clone({
-    headers,
-  });
+    req = req.clone({
+      headers,
+    });
+  }
 
   return next(req).pipe(tap(res => console.log('response', res)));
 };

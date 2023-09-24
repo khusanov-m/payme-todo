@@ -15,8 +15,10 @@ export const routes: Routes = [
   },
   {
     path: 'app/todos',
+    loadComponent: () =>
+      import('./features/todo/todos.component').then(m => m.TodosComponent),
     loadChildren: () =>
-      import('./features/todos/todos.routes').then(m => m.TODOS_ROUTES),
+      import('./features/todo/todo.routes').then(m => m.TODOS_ROUTES),
     canActivate: [authGuard],
   },
   {

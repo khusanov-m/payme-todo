@@ -1,0 +1,35 @@
+<div class="page-container">
+  <h2 class="font-semibold text-lg">PayDo Form</h2>
+
+  <form
+    [formGroup]="todoForm"
+    (ngSubmit)="onSubmit()"
+    class="px-5 py-4 rounded-md bg-neutral-100 shadow-md border-secondary border space-y-4">
+    <mat-form-field class="w-full">
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        placeholder="Do some groceries ..."
+        formControlName="title"
+        required />
+      <mat-error *ngIf="todoForm.get('title')?.invalid">{{
+        getErrorMessage('title')
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox color="primary" formControlName="completed">
+      Completed
+    </mat-checkbox>
+
+    <div class="flex items-center justify-end gap-4">
+      <button
+        type="button"
+        class="btn btn--tertiary"
+        (click)="resetForm()"
+        [disabled]="isLoading">
+        Cancel
+      </button>
+      <button class="btn btn--primary" [disabled]="isLoading">Submit</button>
+    </div>
+  </form>
+</div>

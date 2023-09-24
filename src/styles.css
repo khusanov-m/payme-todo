@@ -12,13 +12,16 @@
   @apply cursor-not-allowed;
 }
 
-html {
-  font-size: 62.5%;
+button {
+  @apply transition-colors duration-200;
 }
 
 /*
   3. Allow percentage-based heights in the application
 */
+html {
+  font-size: 100%;
+}
 html,
 body {
   @apply h-full;
@@ -35,7 +38,6 @@ body {
   margin: 0;
   font-family: 'Inter', 'Helvetica Neue', sans-serif;
   min-height: 100dvh;
-  font-size: 1.6rem;
 }
 
 /*
@@ -80,7 +82,7 @@ img {
 
 select:disabled,
 input:disabled {
-  @apply text-disabled-100 bg-disabled-500;
+  @apply text-neutral-500 bg-zinc-200;
 }
 
 input:focus,
@@ -111,17 +113,37 @@ ul {
   scrollbar-width: none; /* Firefox */
 }
 
-.select-appearance-none {
-  -moz-appearance: none; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
+/* .select-appearance-none {
+  -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
   background: transparent;
   background-image: url('/assets/icons/chevron-down.png');
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1.5rem;
-}
+} */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Global */
+.page-container {
+  @apply px-12 py-6 max-w-[80rem] mx-auto mt-5 space-y-4;
+}
+
+.btn {
+  @apply px-4 py-2 rounded flex items-center gap-2 transition-colors duration-200;
+}
+
+.btn--delete {
+  @apply bg-rose-500 text-secondary hover:bg-rose-400 hover:text-dark;
+}
+
+.btn--primary {
+  @apply bg-cyan-300 text-secondary hover:bg-cyan-200 hover:text-dark;
+}
+.btn--tertiary {
+  @apply border border-gray-300 text-dark hover:bg-gray-200 hover:text-dark;
+}

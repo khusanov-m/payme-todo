@@ -6,12 +6,10 @@ module.exports = {
       colors: {
         primary: '#34cccc',
         secondary: '#3f3f45',
-        tertiary: '#ffcc01',
         dark: '#232225',
-        light: '#eff2f5',
-        lighter: '#f5f8f9',
-        'disabled-100': '#e5e7eb',
-        'disabled-500': '#6b7280',
+      },
+      gridTemplateColumns: {
+        'autofill-335': 'repeat(auto-fill, minmax(350px, 1fr))',
       },
     },
   },

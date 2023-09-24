@@ -1,0 +1,41 @@
+<section class="page-container">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h2 class="font-semibold text-lg">Todo List</h2>
+
+    <div class="flex gap-8">
+      <button
+        [routerLink]="['/app/todos/add']"
+        class="flex items-center gap-2 border rounded-md px-4 py-2 font-semibold bg-teal-200 text-teal-700 hover:bg-teal-300">
+        <ng-icon name="heroPlusCircle" size="24" />
+        <span class="">Add todo</span>
+      </button>
+
+      <div class="flex items-center gap-3">
+        <p>Filter</p>
+        <mat-chip-listbox
+          aria-label="Filter selection"
+          role="listbox"
+          (change)="onFilterChange($event)">
+          <mat-chip-option
+            *ngFor="let item of filterOptions"
+            role="listitem"
+            [color]="item.color"
+            [value]="item.value"
+            >{{ item.title }}</mat-chip-option
+          >
+        </mat-chip-listbox>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="todos$ | async as todos">
+    <div class="grid grid-cols-autofill-335 gap-4">
+      <app-ui-todo
+        *ngFor="let item of todos | filter: 'completed' : filterValue"
+        [showMenu]="true"
+        [showDetails]="true"
+        [todo]="item"
+        (action)="onActionTrigger($event)" />
+    </div>
+  </ng-container>
+</section>
