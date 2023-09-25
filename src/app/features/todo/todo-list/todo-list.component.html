@@ -28,14 +28,26 @@
     </div>
   </div>
 
-  <ng-container *ngIf="todos$ | async as todos">
-    <div class="grid grid-cols-autofill-335 gap-4">
-      <app-ui-todo
-        *ngFor="let item of todos | filter: 'completed' : filterValue"
-        [showMenu]="true"
-        [showDetails]="true"
-        [todo]="item"
-        (action)="onActionTrigger($event)" />
-    </div>
-  </ng-container>
+  <div *ngIf="todos$ | asyncLoading | async as todos">
+    <ng-template [ngIf]="todos.value">
+      <div class="grid grid-cols-autofill-335 gap-4">
+        <app-ui-todo
+          *ngFor="let item of todos.value | filter: 'completed' : filterValue"
+          [showMenu]="true"
+          [showDetails]="true"
+          [todo]="item"
+          (action)="onActionTrigger($event)" />
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="todos.error">Error {{ todos.error }}</ng-template>
+    <ng-template [ngIf]="todos.loading">
+      <ngx-skeleton-loader
+        count="3"
+        class="grid grid-cols-autofill-335 gap-4"
+        [theme]="{
+          height: '136px',
+          'border-radius': '6px'
+        }"></ngx-skeleton-loader>
+    </ng-template>
+  </div>
 </section>

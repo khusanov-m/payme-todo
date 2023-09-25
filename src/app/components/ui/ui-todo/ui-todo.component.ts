@@ -43,15 +43,15 @@ import { TodoItem } from 'src/app/features/todo/todo.types';
   ],
 })
 export class UiTodoComponent {
-  @Input({ required: true }) todo: TodoItem | undefined;
-  @Input({ required: true }) showMenu = false;
-  @Input({ required: true }) showDetails = false;
-  @Output() action = new EventEmitter<{
+  @Input({ required: true }) public todo: TodoItem | undefined;
+  @Input({ required: true }) public showMenu = false;
+  @Input({ required: true }) public showDetails = false;
+  @Output() public action = new EventEmitter<{
     type: string;
     id: string;
   }>();
 
-  menuItems = [
+  public menuItems = [
     {
       title: 'edit',
       icon: 'heroPencil',

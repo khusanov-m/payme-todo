@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
 
@@ -12,8 +11,7 @@ export class HttpService {
 
   constructor(
     private _http: HttpClient,
-    private _errHandler: ErrorHandlerService,
-    private _cookie: CookieService
+    private _errHandler: ErrorHandlerService
   ) {}
 
   public get<T>(

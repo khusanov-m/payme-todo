@@ -40,7 +40,7 @@ export class HeaderComponent {
     },
   ];
 
-  constructor(
+  public constructor(
     private _cookie: CookieService,
     private _router: Router
   ) {}

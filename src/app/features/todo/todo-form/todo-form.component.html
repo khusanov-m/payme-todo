@@ -1,7 +1,16 @@
 <div class="page-container">
   <h2 class="font-semibold text-lg">PayDo Form</h2>
 
+  <div *ngIf="isLoading">
+    <ngx-skeleton-loader
+      [theme]="{
+        height: '226px',
+        'border-radius': '6px'
+      }"></ngx-skeleton-loader>
+  </div>
+
   <form
+    *ngIf="!isLoading"
     [formGroup]="todoForm"
     (ngSubmit)="onSubmit()"
     class="px-5 py-4 rounded-md bg-neutral-100 shadow-md border-secondary border space-y-4">

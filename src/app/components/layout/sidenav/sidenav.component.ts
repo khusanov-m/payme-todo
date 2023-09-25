@@ -32,7 +32,7 @@ import {
   ],
 })
 export class SidenavComponent {
-  navigation = [
+  public navigation = [
     {
       path: '/app/todos/list',
       name: 'Todo List',

@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   PreloadAllModules,
@@ -11,6 +11,7 @@ import { provideStore } from '@ngrx/store';
 import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideToastr } from 'ngx-toastr';
 
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { routes } from './app.routes';
 import { TodosEffects } from './features/todo/store/todos.effects';
 import { reducers } from './features/todo/store/todos.store';
@@ -35,5 +36,12 @@ export const appConfig: ApplicationConfig = {
     RouteTitleConfig,
     provideStore(reducers),
     provideEffects([TodosEffects]),
+    importProvidersFrom([
+      NgxSkeletonLoaderModule.forRoot({
+        theme: {
+          background: '#e5e7eb',
+        },
+      }),
+    ]),
   ],
 };

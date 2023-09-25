@@ -1,17 +1,26 @@
 <div class="page-container">
-  <app-ui-todo [todo]="todo" [showMenu]="false" [showDetails]="false" />
+  <ngx-skeleton-loader
+    *ngIf="isLoading"
+    [theme]="{
+      height: '100px',
+      'border-radius': '6px'
+    }"></ngx-skeleton-loader>
 
-  <div class="flex gap-4">
-    <button matRipple class="btn btn--delete" (click)="openDialog()">
-      <ng-icon name="heroTrash" size="20" />
-      <span> Delete </span>
-    </button>
-    <button
-      matRipple
-      [routerLink]="['/app/todos/todo/', todo?.id, 'edit']"
-      class="btn btn--primary">
-      <ng-icon name="heroPencilSquare" size="20" />
-      <span> Edit </span>
-    </button>
-  </div>
+  <ng-container *ngIf="!isLoading && todo">
+    <app-ui-todo [todo]="todo" [showMenu]="false" [showDetails]="false" />
+
+    <div class="flex gap-4">
+      <button matRipple class="btn btn--delete" (click)="openDialog()">
+        <ng-icon name="heroTrash" size="20" />
+        <span> Delete </span>
+      </button>
+      <button
+        matRipple
+        [routerLink]="['/app/todos/todo/', todo.id, 'edit']"
+        class="btn btn--primary">
+        <ng-icon name="heroPencilSquare" size="20" />
+        <span> Edit </span>
+      </button>
+    </div>
+  </ng-container>
 </div>

@@ -1,13 +1,12 @@
 import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   FormBuilder,
   FormsModule,
@@ -19,15 +18,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgIconComponent } from '@ng-icons/core';
 import { Store } from '@ngrx/store';
-import { ToastrService } from 'ngx-toastr';
-import { getAllTodos, getTodoById } from '../store/todos.actions';
-import { selectTodo } from '../store/todos.selectors';
-import { TodoService } from '../todo.service';
-import { TodoDataRequest, TodoItem } from '../todo.types';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import * as TodosActions from '../store/todos.actions';
+import { selectTodo } from '../store/todos.selectors';
+import { TodoDataRequest, TodoItem } from '../todo.types';
 @Component({
   selector: 'app-todo-form',
   standalone: true,
@@ -40,6 +38,7 @@ import { TodoDataRequest, TodoItem } from '../todo.types';
     MatRippleModule,
     NgIconComponent,
     MatCheckboxModule,
+    NgxSkeletonLoaderModule,
     NgIf,
   ],
   templateUrl: './todo-form.component.html',
@@ -57,23 +56,27 @@ export class TodoFormComponent {
   });
 
   public constructor(
+    private readonly store: Store,
     private _route: ActivatedRoute,
     private _fb: FormBuilder,
-    private _todo: TodoService,
-    private _router: Router,
-    private _toastr: ToastrService,
-    private readonly store: Store
+    private _cdRef: ChangeDetectorRef
   ) {
     const id = this._route.snapshot.paramMap.get('id');
     if (id) {
-      this.store.dispatch(getTodoById({ id }));
+      this.isLoading = true;
+      this._cdRef.markForCheck();
+      this.store.dispatch(TodosActions.getTodoById({ id }));
+    } else {
+      this.store.dispatch(TodosActions.setTodo({ todo: null }));
     }
     const todo = this.store.select(selectTodo);
     todo.pipe(takeUntilDestroyed(this._destroy)).subscribe({
       next: todo => {
         if (todo) {
           this.todo = todo;
+          this.isLoading = false;
           this.todoForm.patchValue(todo);
+          this._cdRef.markForCheck();
         }
       },
     });
@@ -95,41 +98,15 @@ export class TodoFormComponent {
 
   private editTodo(): void {
     if (this.todo?.id && this.isTodoFormValid(this.todoForm.value)) {
-      this._todo
-        .editTodo(this.todoForm.value, this.todo.id)
-        .pipe(takeUntilDestroyed(this._destroy))
-        .subscribe({
-          next: () => {
-            this._router.navigate(['/app/todos']);
-            this._toastr.success("Todo's been updated successfully!");
-            this.store.dispatch(getAllTodos());
-          },
-          error: (err: HttpErrorResponse) => {
-            this._toastr.error(err.message);
-            this.todoForm.enable();
-            this.isLoading = false;
-          },
-        });
+      this.store.dispatch(
+        TodosActions.editTodo({ todo: this.todoForm.value, id: this.todo.id })
+      );
     }
   }
 
   private addTodo(): void {
     if (this.isTodoFormValid(this.todoForm.value)) {
-      this._todo
-        .addTodo(this.todoForm.value)
-        .pipe(takeUntilDestroyed(this._destroy))
-        .subscribe({
-          next: () => {
-            this._router.navigate(['/app/todos']);
-            this._toastr.success("Todo's been added successfully");
-            this.store.dispatch(getAllTodos());
-          },
-          error: (err: HttpErrorResponse) => {
-            this._toastr.error(err.message);
-            this.todoForm.enable();
-            this.isLoading = false;
-          },
-        });
+      this.store.dispatch(TodosActions.addTodo({ todo: this.todoForm.value }));
     }
   }
 

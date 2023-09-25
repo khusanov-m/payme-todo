@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
+
 import { HeaderComponent } from 'src/app/components/layout/header/header.component';
 import { SidenavComponent } from 'src/app/components/layout/sidenav/sidenav.component';
 import { getAllTodos } from './store/todos.actions';
@@ -22,9 +23,9 @@ import { getAllTodos } from './store/todos.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodosComponent implements OnInit {
-  constructor(private store: Store) {}
+  public constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(getAllTodos());
   }
 }

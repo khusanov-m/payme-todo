@@ -4,11 +4,11 @@ import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 
 @Injectable()
 export class PageTitleService extends TitleStrategy {
-  constructor(private readonly title: Title) {
+  public constructor(private readonly title: Title) {
     super();
   }
 
-  override updateTitle(routerState: RouterStateSnapshot) {
+  public override updateTitle(routerState: RouterStateSnapshot) {
     const title = this.buildTitle(routerState);
     if (title !== undefined) {
       this.title.setTitle(`PaymeDo || ${title}`);

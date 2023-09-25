@@ -21,9 +21,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroEye, heroEyeSlash } from '@ng-icons/heroicons/outline';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 
-import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from './auth.service';
 import { LoginRequest } from './auth.types';
 

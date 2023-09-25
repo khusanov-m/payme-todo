@@ -12,3 +12,7 @@ export const selectTodos = createSelector(selectTodosState, getTodos);
 const selectTodoState = createFeatureSelector<TodosState>('todo');
 const getTodo = (state: TodosState): TodoItem | null => state.todo;
 export const selectTodo = createSelector(selectTodoState, getTodo);
+
+const selectErrorState = createFeatureSelector<TodosState>('todo');
+const getError = (state: TodosState): string => state.error;
+export const selectError = createSelector(selectErrorState, getError);

@@ -10,5 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiConfirmDialogComponent {
-  constructor(public dialogRef: MatDialogRef<UiConfirmDialogComponent>) {}
+  public constructor(
+    public dialogRef: MatDialogRef<UiConfirmDialogComponent>
+  ) {}
 }

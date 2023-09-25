@@ -5,10 +5,21 @@ export const setAllTodos = createAction(
   '[Todos] Set Todos',
   props<{ todos: TodoItem[] }>()
 );
-
 export const setTodo = createAction(
   '[Todos] Set Todo',
-  props<{ todo: TodoItem }>()
+  props<{ todo: TodoItem | null }>()
+);
+export const setError = createAction(
+  '[Todos] Set Error',
+  props<{ error: string }>()
+);
+export const setUpdatedTodo = createAction(
+  '[Todos] Set Edit Todo',
+  props<{ todo: TodoItem; id: string }>()
+);
+export const removeTodo = createAction(
+  '[Todos] Remove Todo',
+  props<{ id: string }>()
 );
 
 export const getAllTodos = createAction('[Todos] Get Todos');

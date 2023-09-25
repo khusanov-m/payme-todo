@@ -1,6 +1,7 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -12,13 +13,15 @@ import { Router, RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroPlusCircle } from '@ng-icons/heroicons/outline';
 import { Store } from '@ngrx/store';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Observable } from 'rxjs';
+
 import { UiConfirmDialogComponent } from 'src/app/components/ui/ui-confirm-dialog/ui-confirm-dialog.component';
 import { UiTodoComponent } from 'src/app/components/ui/ui-todo/ui-todo.component';
+import { AsyncLoadingPipe } from 'src/app/pipes/async-loading.pipe';
 import { FilterPipe } from 'src/app/pipes/filter.pipe';
 import * as TodosActions from '../store/todos.actions';
 import { selectTodos } from '../store/todos.selectors';
-import { TodoService } from '../todo.service';
 import { TodoItem } from '../todo.types';
 
 @Component({
@@ -29,11 +32,13 @@ import { TodoItem } from '../todo.types';
     NgIf,
     NgFor,
     AsyncPipe,
+    AsyncLoadingPipe,
     UiTodoComponent,
     MatDialogModule,
     NgIconComponent,
     FilterPipe,
     RouterLink,
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './todo-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +50,7 @@ import { TodoItem } from '../todo.types';
 })
 export class TodoListComponent {
   private _destroy = inject(DestroyRef);
+  public isLoading = true;
   public filterValue = '';
   public filterOptions = [
     {
@@ -59,13 +65,13 @@ export class TodoListComponent {
     },
   ];
 
-  public todos$: Observable<TodoItem[]> | undefined;
+  public todos$: Observable<TodoItem[]>;
 
   public constructor(
     private readonly store: Store,
     private _router: Router,
-    private _todo: TodoService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef
   ) {
     this.todos$ = this.store.select(selectTodos);
   }
@@ -100,7 +106,7 @@ export class TodoListComponent {
       .pipe(takeUntilDestroyed(this._destroy))
       .subscribe(agree => {
         if (agree) {
-          this._todo.deleteTodo(id);
+          this.store.dispatch(TodosActions.deleteTodo({ id }));
         }
       });
   }
